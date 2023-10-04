@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html class="no-js" dir="LTR" lang="en">
+    <head>
+        {{ include('_headertags.html.twig') }}
+
+        {% block _canonical %}{% endblock %}
+
+        {{ include('_stylesheets.html.twig') }}
+
+        {% block _trackers_page_pre %}{% endblock %}
+        {% include('_trackers.html.twig') %}
+        {% block _trackers_page_post %}{% endblock %}
+    </head>
+    <body>
+        <div id="wrapper">
+            <header>
+                {{ include('_header.html.twig') }}
+            </header>
+
+            <div id="content">
+                {% block _content %}{% endblock %}
+            </div>
+
+            <footer>
+                {{ include('_footer.html.twig') }}
+            </footer>  
+        </div>
+    </body>
+</html>

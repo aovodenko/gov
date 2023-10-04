@@ -1,0 +1,728 @@
+{% set currency = currenciesRepository.getCurrentCurrency %}
+{% set currencySelector = currencySelector.generate %}
+{% set shippingBanner = shippingBanner.generate %}
+{% set customersBasketCollection = customersBasketCollection.setCustomersBasketCollection %}
+{% set wishlistsCollection = wishlistsCollection.setWishlistsCollection %}
+
+{% for message in app.flashes('top_warning') %}
+    <div class="flash-warning">
+        {{ message }}
+    </div>
+{% endfor %}
+
+{{ include('_top_banner.html.twig') }}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="d-none d-lg-block header-top off-white-bg">
+                <div class="container">
+                    <div class="col-sm-12">
+                        <div class="d-flex justify-content-md-between justify-content-center">
+
+                            <!-- Header Top Left Start -->
+                            <div class="header-top-left">
+                                <ul>
+                                    <li>
+                                        <a href="{{ absolute_url('services.php') }}" id="nav-secondary-left-help">Help</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#" id="header-top-inner-chat-button" onclick="phplive_launch_chat_0(0);
+                                    return false;">
+                                            <span class="icon-bubbles2"></span>&nbsp;Live Chat
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <span>1.888.983.6423</span>
+                                    </li>
+
+                                    {% if currencySelector.current_country_flag %}
+                                        <li id="currencySelector">
+                                            <span>
+                                                {% if currencySelector.current_country_flag %}
+                                                    <a href="#">
+                                                        {{ currencySelector.current_currency }}&nbsp;{{ currencySelector.current_sign|raw }}
+                                                        <i class="fa fa-angle-down"></i>
+                                                    </a>
+                                                {% else %}
+                                                    <a href="#">USD&nbsp;$
+                                                        <i class="fa fa-angle-down"></i>
+                                                    </a>
+                                                {% endif %}
+                                            </span>
+
+                                            <ul class="ht-dropdown">
+                                                <li>
+                                                    <a title="{{ currencySelector.current_currency }}" href="{{ path(app.request.attributes.get('_route')) }}?{{ currencySelector.currentURL4Others }}">
+                                                        <img src="{{ asset(['flags', currencySelector.currency_img]|join('/'), 'images') }}" alt="{{ currencySelector.current_currency }}" />
+                                                        &nbsp;
+                                                        {{ currencySelector.current_currency }}&nbsp;{{ currencySelector.current_sign|raw }}
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a title="USD" href="{{ path(app.request.attributes.get('_route'))}}?{{ currencySelector.currentURL4USD }}">
+                                                        <img src="{{ asset('flags/us.png', 'images') }}" alt="USD" />
+                                                        &nbsp;USD&nbsp;$
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                            <!-- Header Top Left End -->
+
+                            <!-- Header Top Right Start -->
+                            <div class="header-top-right">
+                                <ul>
+                                    {% if not app.session.get('customer_id') or app.session.get('customer_is_guest') %}
+                                        <li>
+                                            <a id="login_form_submit" href="{{ absolute_url('login.php') }}">Sign In</a>
+                                        </li>
+                                    {% else %}
+                                        <li>
+                                            <a href="{{ absolute_url('account.php') }}">
+                                                My Account<i class="fa fa-angle-down"></i>
+                                            </a>
+                                            <!-- Dropdown Start -->
+                                            <ul class="ht-dropdown">
+                                                <li>
+                                                    <a id="signout_header_button" href="{{ absolute_url('logoff.php') }}">Log Out</a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="{{ absolute_url('account.php') }}">My Account</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    {% endif %}
+
+                                    <li id="wishlists-dropdown">
+                                        <a href="{{ absolute_url('wishlists.php') }}">
+                                            <span class="icon-heart-o"></span>&nbsp;
+                                            <span class="wishlist-label-text">Lists</span>
+                                        </a>
+
+                                        <!-- Dropdown Start -->
+                                        <ul class="ht-dropdown">
+                                            <li>
+                                                <div class="hoverFadeTarget" id="wishlist-container" style="right: 0;">
+                                                    <div>
+                                                        <ul>
+                                                            <li><a href="{{ absolute_url('wishlists.php?wid=0') }}">Favorites</a></li>
+                                                            <li><a href="{{ absolute_url('wishlists.php?wid=1') }}">Save For Later</a></li>
+                                                            <li class="wishlist-container-delimeter"></li>
+                                                                {% for wishlist in wishlistsCollection.getWishlistsCollection() %}
+                                                                    {% if wishlist.getWishlistsId() not in [0, 1] %}
+                                                                    <li>
+                                                                        <a href="{{ absolute_url(['wishlists.php?wid', wishlist.getWishlistsId()]|join('=')) }}">{{ wishlist.getWishlistsLabel()|length > 22 ? wishlist.getWishlistsLabel()|slice(0, 22) ~ '...' : wishlist.getWishlistsLabel() }}</a>
+                                                                    </li>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                            <li class="wishlist-container-delimeter"></li>
+
+                                                            <li><a href="{{ absolute_url('wishlists.php') }}">View All My Lists</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <!-- Dropdown End -->
+                                    </li>
+
+                                    {% if customersBasketCollection.countContents()|length > 0 %}
+                                        <li>
+                                            <a href="{{ absolute_url('checkout.php') }}">Checkout</a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                            <!-- Header Top Right End -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 d-block d-lg-none" id="shipping-banner-wrap">
+                <div id="shipping-banner">
+                    <a title="{{ shippingBanner.title }}" href="{{ absolute_url('shipping.php') }}">{{ shippingBanner.title }}{{ shippingBanner.amount ? currency.format(shippingBanner.amount) : '' }}</a>
+                </div>
+            </div>
+
+            <div class="header-middle white-bg">
+                <div class="d-flex flex-row justify-content-between align-items-center">
+
+                    <div class="d-block d-lg-none pl-20" id="menu-mobile-placeholder">
+                        <div class="headerMenu">
+                            <a href="#" id="headerMenuOpen">
+                                <span class="icon-th-menu"></span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Logo Start -->
+                    <div class="d-none d-lg-block pl-20 logo-block" id="logo-desctop-block">
+                        <div class="logo mt-10 text-center">
+                            <a href="{{ url('home') }}">
+                                <img src="{{ asset('murano_glass.jpg', 'images') }}" alt="Murano Glass" border=0>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="d-block d-lg-none pl-15" id="logo-mobile-block">
+                        <div class="logo text-lg-center text-md-left">
+                            <a href="{{ url('home') }}">
+                                <img src="{{ asset('GlassOfVenice_logo.png', 'images') }}" alt="Murano Glass" border=0>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Logo End -->
+
+                    <!-- Categorie Search Box Start Here -->
+                    <div class="pl-15 pr-15 categorie-search-box" id="categorie-search-box">
+                        <div id="searchWrap">
+                            <form class="hcSearch" name="quick_find" id="quick_find" method="get" action="{{ absolute_url('advanced_search_result.php') }}">
+                                <fieldset>
+                                    <input type="text" id="keywords" name="keywords" placeholder="Enter Keyword or Item #" unbxdattr="sq" tabindex="1" autocomplete="off" class="blur" value="" />
+                                    <button type="submit" unbxdattr="sq_bt" tabindex="2" id="quick_find_button"><span class="pe-7s-search"></span></button>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Categorie Search Box End Here -->
+
+                    <div class="d-block d-lg-none pl-15 pr-15 header-account-icon">
+                        <div class="header-account-button">
+                            <ul class="justify-content-sm-between align-items-center">
+                                <li id="cart-box-icon">
+                                    <a href="#" id="header-account-button">
+                                        <span class="{{ not app.session.get('customer_id') or app.session.get('customer_is_guest') ? 'icon-user' : 'icon-user-check' }}"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Cart Box Start Here -->
+                    <div class="pl-15 pr-15">
+                        <div class="container">
+                            <div class="row align-items-center">
+
+                                <div class="col-12 order-1 px-0">
+                                    <div class="cart-box">
+                                        <ul class="d-flex justify-content-sm-between  align-items-center">
+                                            <li id="cart-box-icon">
+                                                <a href="{{ absolute_url('shopping_cart.php') }}" id="cart_box">
+                                                    <img src="{{ asset('img/vertical-menu/icon_cart.png', 'pander') }}" alt="cart-icon">
+                                                    <span class="total-pro" id="totalQty">{{ customersBasketCollection.countContents() }}</span>
+                                                    <span class="my-cart d-none d-lg-inline">
+                                                        <span>my cart</span>
+                                                    </span>
+                                                </a>
+
+                                                <ul class="ht-dropdown cart-box-width">
+                                                    <li id="cartWrap">
+                                                        {% if customersBasketCollection.countContents()|length > 0 %}
+                                                            {% if customersBasketCollection.countContents()|length > 3 %}
+                                                                <div class="container">
+                                                                    <div class="row">
+                                                                        <div class="col cart-actions text-center pb-20 plr-0">
+                                                                            <a class="cart-edit" href="{{ absolute_url('shopping_cart.php') }}">Edit Cart</a>
+                                                                        </div>
+
+                                                                        <div class="col cart-actions text-center pb-20 plr-0">
+                                                                            <a class="cart-checkout" href="{{ absolute_url('checkout.php') }}">Checkout</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            {% endif %}
+
+                                                            {% for customersBasket in customersBasketCollection.getCustomersBasketCollection() %}
+                                                                <div class="single-cart-box">
+                                                                    <div class="cart-img">
+                                                                        <a href="{{ url('products', {'products_url': productsUrl.generate(customersBasket.getProducts().getProductsId()), 'products_id': customersBasket.getProducts().getProductsId()}) }}">
+                                                                            <img src="{{ asset('80x80/' ~ customersBasket.getProducts().getProductsImage(), 'images') }}"  alt="{{ customersBasket.getProducts().getProductsName()|e }}" border="0" width="80" height="80">
+                                                                        </a>
+
+                                                                        {% if customersBasket.getCustomersBasketQuantity() > 1 %}
+                                                                            <span class="pro-quantity">{{ customersBasket.getCustomersBasketQuantity() }}X</span>
+                                                                        {% endif %}
+                                                                    </div>
+
+                                                                    <div class="cart-content">
+                                                                        <h6>
+                                                                            <a href="{{ url('products', {'products_url': productsUrl.generate(customersBasket.getProducts().getProductsId()), 'products_id': customersBasket.getProducts().getProductsId()}) }}">
+                                                                                {{ customersBasket.getProducts().getProductsName()|e }}
+                                                                                {% if customersBasket.getGiftwrapId() > 0 %}
+                                                                                    (Gift&nbsp;Wrap -
+                                                                                    {% if customersBasket.getGiftwrap().getGiftwrapPrice() > 0 %}
+                                                                                        {{ currency.format(customersBasket.getGiftwrap().getGiftwrapPrice()) }}
+                                                                                        {% if customersBasket.getCustomersBasketQuantity() > 1 %}
+                                                                                            /ea.
+                                                                                        {% endif %}
+                                                                                    {% else %}
+                                                                                        FREE!
+                                                                                    {% endif %}
+                                                                                    )
+                                                                                {% endif %}
+                                                                            </a>
+                                                                        </h6>
+
+                                                                        <span class="cart-price">
+                                                                            {{ currency.display_price(customersBasket.getFinalPrice(), customersBasket.getCustomersBasketQuantity()) }}
+                                                                        </span>
+
+                                                                        {% if customersBasket.customersBasketAttributes()|length > 0 %}
+                                                                            {% for customersBasketAttribute in customersBasket.getCustomersBasketAttributes() %}
+                                                                                <span>
+                                                                                    {{ customersBasketAttribute.getProductsOptions().getProductsOptionsName() }}: {{ customersBasketAttribute.getProductsOptionsValue().getProductsOptionsValuesName() }}
+                                                                                </span>
+                                                                            {% endfor %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            {% endfor %}
+
+                                                            <div class="cart-footer">
+                                                                <ul class="price-content">
+                                                                    <li>Subtotal: <span>{{ currency.display_price(customersBasketCollection.getTotal()) }}</span></li>
+                                                                        {% if customersBasketCollection.getGiftwrapSelected() %}
+                                                                        <li>Gift Wrap: <span>{{ currency.format(customersBasketCollection.getGiftwrapTotal()) }}</span></li>
+                                                                        {% endif %}
+                                                                </ul>
+
+                                                                <div class="container">
+                                                                    <div class="row">
+                                                                        <div class="col cart-actions text-center pb-20 plr-0">
+                                                                            <a class="cart-edit" href="{{ absolute_url('shopping_cart.php') }}">Edit Cart</a>
+                                                                        </div>
+
+                                                                        <div class="col cart-actions text-center pb-20 plr-0">
+                                                                            <a class="cart-checkout" href="{{ absolute_url('checkout.php') }}">Checkout</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        {% else %}
+                                                            <div>
+                                                                <div><p class="quickcart-empty">Your shopping cart is empty.</p></div>
+                                                            </div>
+                                                        {% endif %}
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Cart Box End Here -->
+
+                </div>
+            </div>
+
+            {% set categoriesMenuLevels = categoriesLevels.getCategoriesLevels() %} 
+            <div id="header-menu" class="header-menu" style="display: none;">
+                <div class="header-menu-0-level">
+                    {% for parent_id, categories in categoriesMenuLevels[0] %}
+                        <ul id="parent-{{ parent_id }}">
+                            <li class="header-menu-text">
+                                Browse by Category
+                            </li>
+
+                            {% for categories_id, categories_name in categories %}
+                                {% if categories_id not in [115, 162] %}
+                                    <li>
+                                        <a id="categories-{{ categories_id }}" class="category subcategories" href="{{ url('categories', {'categories_url': categoriesUrl.generate(categories_id)}) }}">{{ categories_name }}</a>
+                                    </li>
+                                {% endif %}                 
+                            {% endfor %}
+
+                            <li>
+                                <a class="info specials transition" href="{{ absolute_url('specials.php') }}">Sale</a>
+                            </li>
+
+                            <li class="header-menu-text">
+                                <a href="{{ absolute_url('products_new.php') }}" class="info transition">New Arrivals</a>
+                            </li>
+
+                            <li class="header-menu-text">
+                                <a href="{{ absolute_url('about_us.php') }}" class="info transition">About Us</a>
+                            </li>   
+
+                            <li class="header-menu-text">
+                                <a href="{{ absolute_url('murano_glass.php') }}" class="info transition">About Murano Glass</a>
+                            </li>   
+
+                            <li class="header-menu-text">
+                                <a href="{{ absolute_url('blog') }}" class="info tran sition">Our Blog</a>
+                            </li> 
+
+                            <li class="header-menu-text">
+                                <a href="{{ absolute_url('returns.php') }}" class="info transition">Returns</a>
+                            </li>            
+                        </ul>    
+                    {% endfor %}
+                </div>
+
+                <div class="header-menu-1-level">
+                    {% for parent_id, categories in categoriesMenuLevels[1] %}
+                        <ul id="parent-{{ parent_id }}">
+                            <li>
+                                <div class="header-menu-text">
+                                    <a id="back-{{ parent_id }}" class="back" href="#">&lt; Back</a>
+                                </div>
+                            </li>          	
+
+                            {% for categories_id, categories_name in categories %}
+                                <li>
+                                    <a id="categories-{{ categories_id }}" class="{% if categoriesMenuLevels[2][categories_id] is defined %}subcategories{% endif %} transition" href="{{ url('categories', {'categories_url': categoriesUrl.generate(categories_id)}) }}">{{ categories_name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>            
+                    {% endfor %}
+                </div>
+
+                <div class="header-menu-2-level">
+                    {% for parent_id, categories in categoriesMenuLevels[2] %}
+                        <ul id="parent-{{ parent_id }}">
+                            <li>
+                                <div class="header-menu-text">
+                                    <a id="back-{{ parent_id }}" class="back" href="#">&lt; Back</a>
+                                </div>
+                            </li>          	
+
+                            {% for categories_id, categories_name in categories %}
+                                <li>
+                                    <a id="categories-{{ categories_id }}" class="transition" href="{{ url('categories', {'categories_url': categoriesUrl.generate(categories_id)}) }}">{{ categories_name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>            
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="support-area pt-10">
+                <div class="container">
+                    <div class="row justify-content-between">
+
+                        <div class="col-6 col-lg-3 single-support d-flex align-items-center">
+                            <div class="support-icon">
+                                <a href="{{ absolute_url('murano_glass.php') }}">
+                                    <img src="{{ asset('pixel_trans.gif', 'images') }}" alt="100% Authentic" height="30" id="italy_flag_img" border="0">
+                                </a>
+                            </div>
+
+                            <div class="support-desc">
+                                <h6>
+                                    <a href="{{ absolute_url('murano_glass.php') }}">100% Authentic</a>
+                                </h6>
+                                <span>
+                                    <a href="{{ absolute_url('murano_glass.php') }}">Learn more</a>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-lg-3 single-support d-flex align-items-center">
+                            <div class="support-icon">
+                                <a href="{{ absolute_url('shipping.php') }}">
+                                    <img src="{{ asset('pixel_trans.gif', 'images') }}" alt="100% Authentic" height="30" id="truck_img" border="0">
+                                </a>
+                            </div>
+
+                            <div class="support-desc">
+                                <h6>
+                                    <a href="{{ absolute_url('shipping.php') }}">{{ currencySelector.title_1 }}</a>
+                                </h6>
+                                <span>
+                                    <a href="{{ absolute_url('shipping.php') }}">{{ currencySelector.title_2 }}</a>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-lg-3 single-support d-flex align-items-center">
+                            <div class="support-desc">
+                                <h6>
+                                    <span class="icon-check-circle"></span>&nbsp;
+                                    <a href="{{ absolute_url('7-reasons-buy-murano-glass.php') }}">Trusted Brand</a>
+                                </h6>
+                                <span>
+                                    <a href="{{ absolute_url('7-reasons-buy-murano-glass.php') }}">Serving you since 2008</a>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-lg-3 single-support d-flex align-items-center">
+                            <div class="support-icon">
+                                <a href="{{ absolute_url('blog') }}">
+                                    <img src="{{ asset('pixel_trans.gif', 'images') }}" alt="100% Authentic" height="30" id="expert_img" border="0">
+                                </a>
+                            </div>
+
+                            <div class="support-desc">
+                                <h6>
+                                    <a href="{{ absolute_url('blog') }}">Murano Experts</a>
+                                </h6>
+                                <span>
+                                    <a href="{{ absolute_url('blog') }}">Read our blog</a>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div> 
+
+            <div class="header-bottom black-bg header-sticky d-none d-lg-block mt-10">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-xl-12 ">
+                            <nav>
+                                <ul class="header-bottom-list d-flex justify-content-center">
+
+                                    <li>
+                                        <a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204')}) }}" class="drop-icon" title="Murano Glass Jewelry">Jewelry & Watches</a>
+
+                                        <ul class="ht-dropdown megamenu megamenu-five">
+
+                                            <li>
+                                                <ul>
+                                                    <li class="menu-tile"><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204')}) }}" title="Murano Glass Jewelry">Murano Glass Jewelry</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_74')}) }}" title="Murano Glass Necklaces">Necklaces</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_52')}) }}" title="Murano Glass Pendants">Pendants</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_67')}) }}" title="Murano Glass Earrings">Earrings</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_56')}) }}" title="Murano Glass Bracelets">Bracelets</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_104')}) }}" title="Murano Glass Charm Beads">Charm Beads</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_54')}) }}" title="Murano Glass Rings">Rings</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_197')}) }}" title="Murano Glass Jewelry Sets">Jewelry Sets</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_200')}) }}" title="Murano Glass Children's Jewelry">Children's Jewelry</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_66')}) }}" title="Murano Glass Cufflinks">Cufflinks</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_146')}) }}" title="Murano Glass Watches">Watches</a></li>
+                                                </ul>
+                                            </li>
+
+                                            <li>
+                                                <ul>
+                                                    <li class="menu-tile"><a href="<?php echo tep_href_link(FILENAME_DEFAULT, 'cPath=204_206'); ?>" title="Murano Millefiori Glass">Murano Millefiori</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_206_116')}) }}" title="Millefiori Pendants">&nbsp;Pendants</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_206_130')}) }}" title="Millefiori Earrings">&nbsp;Earrings</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_206_208')}) }}" title="Millefiori Necklaces">&nbsp;Necklaces</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_206_209')}) }}" title="Millefiori Bracelets">&nbsp;Bracelets</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_206_152')}) }}" title="Millefiori Rings">&nbsp;Rings</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_206_210')}) }}" title="Millefiori Jewelry Sets">&nbsp;Sets</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_206_172')}) }}" title="Millefiori Cufflinks">&nbsp;Cufflinks</a></li>
+                                                </ul>
+                                            </li>
+
+                                            <li>
+                                                <ul>
+                                                    <li class="menu-tile"><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('162')}) }}" title="Italian Silver Jewelry">Italian Silver Jewelry</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('162_164')}) }}" title="Millefiori Pendants">&nbsp;Pendants</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('162_163')}) }}" title="Millefiori Earrings">&nbsp;Earrings</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('162_165')}) }}" title="Millefiori Rings">&nbsp;Rings</a></li>
+                                                </ul>
+                                            </li>
+
+                                            <li>
+                                                <ul>
+                                                    <li class="menu-tile"><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_211')}) }}" title="Jewelry Chains & Cords">Chains & Cords</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_211_129')}) }}" title="Jewelry Cords">&nbsp;Cords</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_211_212')}) }}" title="Jewelry Ribbons">&nbsp;Ribbons</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_211_125')}) }}" title="Gold Chains">&nbsp;Gold Chains</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_211_124')}) }}" title="Silver Chains">&nbsp;Silver Chains</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_211_123')}) }}" title="All Chains & Cords">&nbsp;All Chains & Cords</a></li>
+                                                </ul>
+                                            </li>              	
+
+                                            <li>
+                                                <ul>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204')}) }}" title="Murano Glass Jewelry"><img src="{{ asset('categories/Menu_Jewelry.jpg', 'images') }}" alt="Murano Glass Jewelry" class="lazy img-fluid" /></a></li>
+                                                    <li><span>Jewelry and watches handmade by Murano Glass artisans represent the millennial tradition of fine craftsmanship and innovative design. Even the most discerning woman will love Murano Glass jewelry which channels the delicate beauty of Venice.</span></li>									
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <a href="{{ url('categories', {'categories_url': categoriesUrl.generate('213')}) }}" class="drop-icon" title="Murano Glass Accessories">Accessories</a>
+
+                                        <ul class="ht-dropdown megamenu megamenu-three">
+                                            <li>
+                                                <ul>
+                                                    <li class="menu-tile"><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('213_214')}) }}" title="Murano Glass Personal Accessories">Personal</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('213_214_69')}) }}" title="Murano Glass Hairclips">Hairclips</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('213_214_100')}) }}" title="Murano Glass Keychains">Keychains</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('213_214_73')}) }}" title="Murano Glass Pill Boxes">Pill Boxes</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('213_214_126')}) }}" title="Murano Glass Mirrors">Compact Mirrors</a></li>
+                                                </ul>
+                                            </li>  
+
+                                            <li>
+                                                <ul>
+                                                    <li class="menu-tile"><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('213_215')}) }}" title="Murano Glass Office Accessories">Office</a></li> 
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('213_215_87')}) }}" title="Murano Glass Letter Openers">Letter Knives</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('213_215_79')}) }}" title="Murano Glass Paperweights">Paperweights</a></li>
+                                                </ul>                                   
+                                            </li>
+
+                                            <li>
+                                                <ul>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('213')}) }}" title="Murano Glass Accessories"><img src="{{ asset('categories/Menu_Accessories.jpg', 'images') }}" alt="Murano Glass Accessories" class="lazy img-fluid" /></a></li>
+                                                    <li><span>Elegant Murano Glass accessories bring color and fresh breath of Venetian air into your life. Enjoy our selection of fine Murano Glass personal and office accessories handcrafted by top Murano Glass artisans.</span></li>
+                                                </ul>
+                                            </li>                
+
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153')}) }}" class="drop-icon" title="Murano Home Decor">Home D&Eacute;cor</a>
+
+                                        <ul class="ht-dropdown megamenu megamenu-four">
+                                            <li>
+                                                <ul>
+                                                    <li class="menu-tile"><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_80')}) }}" title="Murano Glass Vases">Vases</a></li>
+                                                    <li class="menu-tile"><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_176')}) }}" title="Murano Glass Plates">Accent Plates</a></li>
+                                                    <li class="menu-tile"><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_65')}) }}" title="Murano Glass Photo Frames">Photo Frames</a></li>
+                                                    <li class="menu-tile"><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_121')}) }}" title="Murano Glass Clocks">Clocks</a></li>
+                                                    <li class="menu-tile"><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_216')}) }}" title="Murano Glass Christmas Ornaments">Christmas Ornaments</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_216_169')}) }}" title="Murano Glass Christmas Tree Ornaments">Christmas Tree Ornaments</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_216_218')}) }}" title="Murano Glass Christmas Figurines">Christmas Figurines</a></li>
+                                                </ul>
+                                            </li>  
+
+                                            <li>
+                                                <ul>
+                                                    <li class="menu-tile"><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_219')}) }}" title="Murano Glass Sculptures & Figurines">Sculptures & Figurines</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_219_195')}) }}" title="Murano Glass Animals">Murano Animals</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_219_193')}) }}" title="Murano Glass Birds">Murano Birds</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_219_196')}) }}" title="Murano Glass Fish">Fish, Marine & Nautical</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_219_105')}) }}" title="Murano Glass People Figurines">Professions & People</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_219_220')}) }}" title="Murano Glass Love">Love</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_219_135')}) }}" title="Murano Glass Picasso">Murano Glass Picasso</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_219_221')}) }}" title="Murano Glass Venetian">Venetian Themed</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_219_222')}) }}" title="Murano Glass Christmas">Religious & Christmas</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_219_61')}) }}" title="Murano Glass Judaica">Judaica</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_219_201')}) }}" title="Murano Glass Candy">Candy, Fruit, Plants</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_219_223')}) }}" title="Murano Glass Clowns">Clowns</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_219_154')}) }}" title="Murano Glass Sculptures">All Sculptures</a></li>								
+                                                </ul>
+                                            </li>
+
+                                            <li>
+                                                <ul>
+                                                    <li class="menu-tile"><a href="{{ absolute_url('murano-glass-chandeliers.php') }}" title="Murano Glass Chandeliers">Lighting</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_224_77')}) }}" title="Murano Glass Chandeliers">Chandeliers</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_224_226')}) }}" title="Murano Glass Lamps">Sconces & Lamps</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_224_225')}) }}" title="Murano Pendant Lights">Pendant Lights</a></li>								
+                                                </ul>
+                                            </li>
+
+                                            <li>
+                                                <ul>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153')}) }}"><img src="{{ asset('categories/Menu_HomeDecor.jpg', 'images') }}" alt="Murano Glass Home Decor" class="lazy img-fluid" /></a></li>
+                                                    <li><span>Beautiful home brings a lot of happy moments into your life. Enjoy our large selection of artistic Murano Glass home accents imported directly from Venice, Italy and handcrafted by the best glass artisans on Murano Island.</span></li>								
+                                                </ul>
+                                            </li>                                                                  
+                                        </ul>
+                                    </li>	
+
+                                    <li>
+                                        <a href="{{ url('categories', {'categories_url': categoriesUrl.generate('227')}) }}" class="drop-icon" title="Murano Glass Tableware">Tabletop & Bar</a>
+
+                                        <ul class="ht-dropdown megamenu megamenu-three">
+                                            <li>
+                                                <ul>
+                                                    <li class="menu-tile"><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('227_228')}) }}" title="Murano Glass Tabletop">Tabletop</a></li>	
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('227_228_202')}) }}" title="Murano Glass Bowls Plates">Cups, Plates, Bowls</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('227_228_166')}) }}" title="Murano Glass Candle Holders">Candle Holders</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('227_228_110')}) }}" title="Murano Glass Serveware">Serving Utensils</a></li>
+                                                </ul>
+                                            </li>
+
+                                            <li>
+                                                <ul>
+                                                    <li class="menu-tile"><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('227_229')}) }}" title="Murano Glass Barware">Bar and Wine</a></li>	
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('227_229_108')}) }}" title="Murano Glass Decanter Sets">Decanter Sets</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('227_229_167')}) }}" title="Murano Glass Decanters">Carafes and Decanters</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('227_229_148')}) }}" title="Murano Glass Goblets">Glasses and Goblets</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('227_229_109')}) }}" title="Murano Glass Bottle Openers">Bottle Openers</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('227_229_63')}) }}" title="Murano Glass Bottle Stoppers">Bottle Stoppers</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('227_229_147')}) }}" title="Murano Glass Wine Glass Charms">Wine Glass Charms</a></li>
+                                                </ul>
+                                            </li>
+
+                                            <li>
+                                                <ul>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('227')}) }}" title="Murano Glass Tableware"><img src="{{ asset('categories/Menu_Tabletop.jpg', 'images') }}" alt="Murano Glass Drinking Glasses Bowls Wine Glasses" class="lazy img-fluid" /></a></li>
+                                                    <li><span>Dine and entertain in style with fine Murano Glass tableware and barware. Our bowls, plates, tumblers, goblets, decanters, pitchers and other fine pieces come from the workshops of the most famous Murano artisans whose families have been blowing glass for generations.</span></li>
+                                                </ul>
+                                            </li>                
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <a href="{{ absolute_url('vintage-murano-glass.html') }}" class="drop" title="Vintage Murano Glass">VINTAGE GLASS</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="{{ url('categories', {'categories_url': categoriesUrl.generate('192')}) }}" class="drop-icon" title="Italian Genuine Leather Bags and Accessories">Italian Leather</a>
+
+                                        <ul class="ht-dropdown megamenu megamenu-three megamenu-three-right">
+                                            <li>
+                                                <ul>
+                                                    <li class="menu-tile"><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('192')}) }}" title="Italian Genuine Leather Bags">Bags</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('192_168')}) }}" title="Italian Genuine Leather Handbags">Handbags</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('192_106')}) }}" title="Italian Genuine Leather Backpacks">Backpacks</a></li>
+                                                </ul>
+                                            </li>
+
+                                            <li>
+                                                <ul>
+                                                    <li class="menu-tile"><a href="#" onclick="javascript:void(0);
+                                                return false;" title = "Italian Genuine Leather Accessories">Accessories</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('192_118')}) }}" title="Italian Genuine Leather Wallets">Wallets</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('192_117')}) }}" title="Italian Genuine Leather Keychains">Keychains</a></li>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('192_119')}) }}" title="Italian Genuine Leather Trays">Trays</a></li>
+                                                </ul>
+                                            </li>
+
+                                            <li>
+                                                <ul>
+                                                    <li><a href="{{ url('categories', {'categories_url': categoriesUrl.generate('192')}) }}"><img src="{{ asset('categories/italian_genuine_leather_bags.jpg', 'images') }}" alt="Italian Genuine Leather Bags" class="lazy img-fluid" /></a></li>
+                                                    <li><span>Top-quality handmade soft Italian genuine leather bags & accessories crafted in an artisan workshop in Florence. A curated selection of leather bags, backpacks, wallets, trays, keychains and more made in Italy.</span></li>
+                                                </ul>
+                                            </li>  								
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <a href="{{ absolute_url('murano_glass_gifts.php') }}" class="drop" alt="Murano Glass Gifts">Gift Guide</a>
+                                    </li>	
+
+                                    <li>
+                                        <a href="{{ absolute_url('products_new.php') }}" class="drop">New Arrivals</a>
+                                    </li>	
+
+                                    <li class="sale">
+                                        <a href="{{ absolute_url('specials.php') }}" class="drop">Sale</a>
+                                    </li>											
+
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <!-- Row End -->
+                </div>
+                <!-- Container End -->
+            </div>   
+        </div>   
+    </div>   
+</div>   

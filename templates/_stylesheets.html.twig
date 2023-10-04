@@ -1,0 +1,7 @@
+{% set manifestAssetsJsonData = manifestAssetsJsonData.generate() %}
+<link rel="preload" href="{{ manifestAssetsJsonData['index.css'] }}" as="style">
+<style>
+{{ manifestAssetsJsonData['critical.index.css']|raw }}
+</style>
+<link rel="stylesheet" href="{{ manifestAssetsJsonData['index.css'] }}"  media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="{{ manifestAssetsJsonData['index.css'] }}"></noscript>

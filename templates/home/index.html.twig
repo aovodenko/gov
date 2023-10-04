@@ -1,0 +1,246 @@
+{% extends 'layout.html.twig' %}
+
+{% block _canonical %}
+    <link rel="canonical" href="{{ absolute_url('/') }}">
+{% endblock %}
+
+{% block _trackers_page_post %}
+    <script type="text/javascript">
+        fbq('track', 'ViewContent');
+    </script>
+{% endblock %}
+
+{% block _content %}
+    {% set currency = currenciesRepository.getCurrentCurrency %}
+    {% set slidersImages = slidersImagesRepository.findBySlidersId(slidersRepository.findOneBySlidersAlias('home_page')) %}
+    {% if(slidersImages|length > 0) %}
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="slider pb-10">
+                        {% for slidersImage in slidersImages %}
+                            {% set slidersImagesLinks = slidersImagesLinksRepository.findBySlidersImagesId(slidersImage.getSlidersImagesId()) %}
+                            <img src="{{ asset('sliders/' ~ slidersImage.getSlidersImages(), 'images') }}" {% if slidersImagesLinks|length > 0 %}usemap="#sliders_images_map_{{ slidersImage.getSlidersImagesId() }}"{% endif %} alt="{{ slidersImage.getAltText() }}" class="img-fluid lazy" width="1440" height="449" style="width: 100%; height: auto;" />
+                            {% if slidersImagesLinks|length > 0 %}
+                                <map name="sliders_images_map_{{ slidersImage.getSlidersImagesId() }}"> 
+                                    {% for slidersImagesLink in slidersImagesLinks %}
+                                        <area shape="rect" coords="{{ slidersImagesLink.getSlidersImagesLinksX1() }}, {{ slidersImagesLink.getSlidersImagesLinksY1() }}, {{ slidersImagesLink.getSlidersImagesLinksX2() }}, {{ slidersImagesLink.getSlidersImagesLinksY2() }}" href="<?php echo $area['url']; ?>" onclick="location.href = '{{ slidersImagesLink.getSlidersImagesLinksUrl() }}'; return false;">
+                                    {% endfor %}
+                                </map> 
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div> 
+            </div>   
+        </div>
+    {% endif %}
+
+    <div class="our-product pt-10">
+        <div class="container">
+            <div class="section-title text-center">
+                <h1>Murano Glass</h1> <span>- Bestsellers</span>
+            </div>
+
+            {% set products = productsRepository.findTopSellers() %}
+            {{ include('_carousel.html.twig') }}
+        </div>
+    </div> 
+
+    <div class="our-product pt-30">
+        <div class="container">
+            <div class="section-title text-center">
+                <span>New Arrivals</span>
+            </div>
+            {% set products = productsRepository.findNewArrivals() %}
+            {{ include('_carousel.html.twig') }}                                                            
+        </div>
+    </div> 
+
+    <div class="top-categories our-product pt-30">
+        <div class="container">
+            <div class="section-title text-center">
+                <span>Shop Top Categories</span>
+            </div>
+            <div class="row justify-content-between">
+                <div class="col-6 col-md-3 d-flex align-items-center">
+                    <a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_74')}) }}" title="Murano Glass Necklaces">
+                        <img src="{{ asset('categories/cat_74.jpg', 'images') }}" alt="Murano Glass Necklaces" width="400" height="400" class="lazy" />
+                        <h2>NECKLACES</h2>
+                    </a>
+                </div>      
+
+                <div class="col-6 col-md-3 d-flex align-items-center">
+                    <a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_67')}) }}" title="Murano Glass Earrings">
+                        <img src="{{ asset('categories/cat_67.jpg', 'images') }}" alt="Murano Glass Earrings" width="400" height="400" class="lazy" />
+                        <h2>EARRINGS</h2>
+                    </a>
+                </div>
+
+                <div class="col-6 col-md-3 d-flex align-items-center">
+                    <a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_206_116')}) }}" title="Millefiori Pendants">
+                        <img src="{{ asset('categories/cat_116.jpg', 'images') }}" alt="Murano Pendants" width="400" height="400" class="lazy" />
+                        <h2>MILLEFIORI PENDANTS</h2>
+                    </a>
+                </div>
+
+                <div class="col-6 col-md-3 d-flex align-items-center">
+                    <a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_52')}) }}" title="Murano Glass Pendants">
+                        <img src="{{ asset('categories/cat_52.jpg', 'images') }}" alt="Murano Glass Pendants" width="400" height="400" class="lazy" />
+                        <h2>PENDANTS</h2>
+                    </a>
+                </div>
+            </div>
+
+            <div class="row justify-content-between">    
+                <div class="col-6 col-md-3 d-flex align-items-center">
+                    <a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_56')}) }}" title="Murano Glass Bracelets">
+                        <img src="{{ asset('categories/cat_56.jpg', 'images') }}" alt="Murano Glass Bracelets" width="400" height="400" class="lazy" />
+                        <h2>BRACELETS</h2>
+                    </a>
+                </div>	
+
+                <div class="col-6 col-md-3 d-flex align-items-center">
+                    <a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_206_152')}) }}" title="Millefiori Rings">
+                        <img src="{{ asset('categories/cat_152.jpg', 'images') }}" alt="Millefiori Rings" width="400" height="400" class="lazy" />
+                        <h2>RINGS</h2>
+                    </a>
+                </div>	
+
+                <div class="col-6 col-md-3 d-flex align-items-center">
+                    <a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_66')}) }}" title="Murano Glass Cufflinks">
+                        <img src="{{ asset('categories/cat_66.jpg', 'images') }}" alt="Murano Glass Cufflinks" width="400" height="400" class="lazy" />
+                        <h2>CUFFLINKS</h2>
+                    </a>
+                </div>
+
+                <div class="col-6 col-md-3 d-flex align-items-center">
+                    <a href="{{ url('categories', {'categories_url': categoriesUrl.generate('204_146')}) }}" title="Murano Glass Watches">
+                        <img src="{{ asset('categories/cat_146.jpg', 'images') }}" alt="Murano Glass Watches" width="400" height="400" class="lazy" />
+                        <h2>WATCHES</h2>
+                    </a>
+                </div>
+            </div>  
+
+            <div class="row justify-content-between">
+                <div class="col-6 col-md-3 d-flex align-items-center">
+                    <a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_80')}) }}" title="Murano Glass Vases">
+                        <img src="{{ asset('categories/cat_80.jpg', 'images') }}" alt="Murano Glass Vases" width="400" height="400" class="lazy" />
+                        <h2>VASES & BOWLS</h2>
+                    </a>
+                </div>	
+
+                <div class="col-6 col-md-3 d-flex align-items-center">
+                    <a href="{{ url('categories', {'categories_url': categoriesUrl.generate('153_219_154')}) }}" title="Murano Glass Sculptures">
+                        <img src="{{ asset('categories/cat_154.jpg', 'images') }}" alt="Murano Glass Sculptures" width="400" height="400" class="lazy" />
+                        <h2>SCULPTURES</h2>
+                    </a>
+                </div>	
+
+                <div class="col-6 col-md-3 d-flex align-items-center">
+                    <a href="{{ url('categories', {'categories_url': categoriesUrl.generate('227_229_148')}) }}" title="Murano Glass Goblets">
+                        <img src="{{ asset('categories/cat_148.jpg', 'images') }}" alt="Murano Glass Goblets" width="400" height="400" class="lazy" />
+                        <h2>GLASSES & GOBLETS</h2>
+                    </a>
+                </div>
+
+                <div class="col-6 col-md-3 d-flex align-items-center">
+                    <a href="{{ absolute_url('murano_glass_gifts.php') }}" class="drop christmas" title="Murano Glass Gift Guide">
+                        <img src="{{ asset('categories/Murano_Glass_Gifts.jpg', 'images') }}" alt="Murano Glass Gift Guide" width="400" height="400" class="lazy" />
+                        <h2><span style='color:#BB002C'>GIFT GUIDE</span></h2>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+    <div class="store-info-block our-product pt-30">
+        <div class="container">
+            <div class="section-title text-center">
+                <span>We Offer The Best In Authentic Murano Glass</span>
+            </div>
+            <button class="collapsible first">Every piece is authentic and comes from Murano, Italy.</button>
+            <div class="content">
+                <p>All Venetian Glass products sold in our online store are hand-made by skilled master glass-blowers in a traditional factory on Murano Island in Venice, Italy. Every piece is crafted one-at-a-time using traditional glass-making techniques and every product is special and unique.</p>
+            </div>
+
+            <button class="collapsible">With us you get factory-direct products and prices.</button>
+            <div class="content">
+                <p>There are no middle-men. We work directly with multiple Murano-based artisans, factories and workshops, each specializing in its own type of products or glass-blowing technique. We have long-standing personal relationships with the masters and bring you their finest creations.</p>
+            </div>
+
+            <button class="collapsible">Our Murano Glass is of the highest quality.</button>
+            <div class="content">
+                <p>We personally curate our Murano Glass selection to bring you the best quality and styles. Many pieces we carry can be found in high-end Murano Glass stores and galleries in Italy. We travel to Venice often and continue to update our catalog with new and popular designs. Our selection is better than in Venetian Glass stores and our prices are lower.</p>
+            </div>
+        </div>
+    </div> 
+
+    <div class="venice-tips-block our-product pt-30">
+        <div class="container">
+            <div class="section-title text-center">
+                <span>Murano Glass And Venice Tips</span>
+            </div>
+            <div class="row justify-content-between">
+                <div class="col-sm-12 col-md-4 align-items-center">
+                    <a href="https://www.glassofvenice.com/blog/2019/09/how-to-identify-and-recognize-authentic-murano-glass-5-top-tips/" target="_self">
+                        How To Identify And Recognize Authentic Murano Glass - 5 Top Tips
+                    </a>
+
+                    <a href="https://www.glassofvenice.com/blog/2019/09/how-to-identify-and-recognize-authentic-murano-glass-5-top-tips/" target="_self">
+                        <img data-src="https://assets.glassofvenice.com/images/marketing/homepage/How-To-Identify-Authentic-Murano-Glass.jpg" alt="How Can You Tell Real Murano Glass" width="300" height="300" class="lazy" />
+                    </a>
+
+                    <p>
+                        Is your Murano Glass piece authentic? Determining original Murano Glass is no easy task, especially since handmade Venetian glass products have become so popular, and many sellers sell look-alikes that are not made on Murano or even in Italy. We give you 5 steps to determine authentic Murano Glass.
+                    </p>
+
+                    <div class="read_more">
+                        <a class="read_more" href="https://www.glassofvenice.com/blog/2019/09/how-to-identify-and-recognize-authentic-murano-glass-5-top-tips/" target="_self">
+                            Read more
+                        </a>	
+                    </div>
+                </div>      
+
+                <div class="col-sm-12 col-md-4 align-items-center">
+                    <a href="https://www.glassofvenice.com/blog/2017/08/how-to-buy-murano-glass-in-venice/" target="_self">
+                        How to Buy Murano Glass when you shop online or in Venice
+                    </a>
+
+                    <a href="https://www.glassofvenice.com/blog/2017/08/how-to-buy-murano-glass-in-venice/" target="_self">
+                        <img data-src="https://assets.glassofvenice.com/images/marketing/homepage/How_to_buy_Murano_Glass_Online_or_in_Venice_Text.jpg" alt="How To Buy Murano Glass Online" width="300" height="300" class="lazy" />
+                    </a>
+
+                    <p>
+                        To buy Murano Glass online or shop for glassware in Venice you need to know how to find original Murano Glass, pay the right price, and safely ship it home. We suggest shopping online to get more selection and better prices, but we help you shop in Venice if you want to bring home a souvenir from Italy.
+                    </p>
+
+                    <div class="read_more">
+                        <a class="read_more" href="https://www.glassofvenice.com/blog/2017/08/how-to-buy-murano-glass-in-venice/" target="_self">
+                            Read more
+                        </a>	
+                    </div>			
+                </div>
+
+                <div class="col-sm-12 col-md-4 align-items-center">
+                    <a href="https://www.glassofvenice.com/blog/2010/02/what-is-the-difference-between-murano-glass-and-any-other-glass/" target="_self">
+                        What is Murano Glass? What is the difference between Murano glass and any other glass?
+                    </a>
+
+                    <a href="https://www.glassofvenice.com/blog/2010/02/what-is-the-difference-between-murano-glass-and-any-other-glass/" target="_self">
+                        <img data-src="https://assets.glassofvenice.com/images/marketing/homepage/What-Is-Murano-Glass.jpg" alt="What Is Murano Glass" width="300" height="300" class="lazy" />
+                    </a>
+
+                    <p>
+                        Murano Glass also known as Venetian Glass is hand-made blown glassware crafted using special methods, techniques, and tools from silica, soda, lime and potassium melted together in a special furnace. This glass-making process was invented in Venice over 1,000 years ago and still survives today.
+                    </p>
+
+                    <div class="read_more">
+                        <a class="read_more" href="https://www.glassofvenice.com/blog/2010/02/what-is-the-difference-between-murano-glass-and-any-other-glass/" target="_self">
+                            Read more
+                        </a>
+                    </div>			
+                </div>
+            </div>
+        </div>
+    </div>                        
+{% endblock %}

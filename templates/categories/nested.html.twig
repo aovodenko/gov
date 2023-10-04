@@ -1,0 +1,25 @@
+{% extends 'layout.html.twig' %}
+
+{% block _canonical %}
+  <link rel="canonical" href="{{ absolute_url('/') }}">
+{% endblock %}
+
+{% block _stylesheets_page %}
+  <link rel="stylesheet" href="{{ asset('css/index.css', 'glassofvenice') }}">
+  <link rel="stylesheet" href="{{ asset('css/index_nested.css', 'glassofvenice') }}">
+{% endblock %}
+
+{% block _trackers_page_post %}
+  <script type="text/javascript">
+    fbq('track', 'ViewContent');
+  </script>
+{% endblock %}
+
+{% block _content %}
+  <br />  
+  <h1>{{ categories_id }}</h1>
+{% endblock %}
+
+{% block _scripts_page %}
+  <script src="{{ asset('js/index.js', 'glassofvenice') }}"></script>
+{% endblock %}

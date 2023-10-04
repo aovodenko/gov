@@ -1,0 +1,131 @@
+{
+    "name": "glassofvenice/ao76",
+    "description": "GlassOfvenice Online Shop",
+    "type": "project",
+    "license": "proprietary",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.0",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "amazon-php/sp-api-sdk": "^5.0",
+        "aws/aws-sdk-php": "^3.200",
+        "beberlei/doctrineextensions": "^1.3",
+        "braintree/braintree_php": "*",
+        "composer/package-versions-deprecated": "1.11.99.4",
+        "doctrine/annotations": "^1.0",
+        "doctrine/doctrine-bundle": "^2.4",
+        "doctrine/doctrine-migrations-bundle": "^3.2",
+        "doctrine/orm": "^2.10",
+        "dompdf/dompdf": "^2.0",
+        "gpslab/geoip2": "^2.0",
+        "guzzlehttp/guzzle": "^7.5",
+        "kriswallsmith/buzz": "^1.2",
+        "mapado/mysql-doctrine-functions": "^1.1",
+        "monolog/monolog": "^2.0",
+        "newsdaycom/stackpath-php-sdk": "*",
+        "nyholm/psr7": "^1.8",
+        "phpdocumentor/reflection-docblock": "^5.3",
+        "psr/log": "^1.1",
+        "rhysnhall/etsy-php-sdk": "*",
+        "sensio/framework-extra-bundle": "^6.2",
+        "symfony/apache-pack": "^1.0",
+        "symfony/asset": "6.1.*",
+        "symfony/cache": "6.1.*",
+        "symfony/cache-contracts": "^3.1",
+        "symfony/console": "6.1.*",
+        "symfony/dotenv": "6.1.*",
+        "symfony/event-dispatcher": "6.1.*",
+        "symfony/expression-language": "6.1.*",
+        "symfony/flex": "^1.3.1",
+        "symfony/form": "6.1.*",
+        "symfony/framework-bundle": "6.1.*",
+        "symfony/http-client": "6.1.*",
+        "symfony/http-kernel": "6.1.*",
+        "symfony/intl": "6.1.*",
+        "symfony/mailer": "6.1.*",
+        "symfony/mime": "6.1.*",
+        "symfony/monolog-bundle": "^3.8",
+        "symfony/notifier": "6.1.*",
+        "symfony/process": "6.1.*",
+        "symfony/property-access": "6.1.*",
+        "symfony/property-info": "6.1.*",
+        "symfony/proxy-manager-bridge": "6.1.*",
+        "symfony/runtime": "6.1.*",
+        "symfony/security-bundle": "6.1.*",
+        "symfony/serializer": "6.1.*",
+        "symfony/string": "6.1.*",
+        "symfony/translation": "6.1.*",
+        "symfony/twig-bundle": "6.1.*",
+        "symfony/validator": "6.1.*",
+        "symfony/var-dumper": "6.1.*",
+        "symfony/web-link": "6.1.*",
+        "symfony/yaml": "6.1.*",
+        "twig/cache-extra": "^3.4",
+        "twig/extra-bundle": "^3.4",
+        "twig/intl-extra": "^3.4",
+        "twig/twig": "^3.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "rector/rector": "^0.14.7",
+        "symfony/browser-kit": "6.1.*",
+        "symfony/css-selector": "6.1.*",
+        "symfony/debug-bundle": "6.1.*",
+        "symfony/maker-bundle": "^1.47",
+        "symfony/phpunit-bridge": "^5.3",
+        "symfony/stopwatch": "6.1.*",
+        "symfony/web-profiler-bundle": "6.1.*"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true,
+		"vendor-dir": "vendor_gov",
+        "allow-plugins": {
+            "symfony/flex": true,
+            "symfony/runtime": true
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "geoip2:update": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "6.1.*"
+        },
+		"public-dir": "www"
+    }
+}

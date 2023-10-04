@@ -1,0 +1,81 @@
+services:
+    # redefine the alias as it should be while making it public
+    Symfony\Component\HttpFoundation\RequestStack:
+        public: true
+        
+    App\Repository\CurrenciesRepository:
+        public: true
+        arguments:
+            - '@doctrine'
+            - '@Symfony\Component\HttpFoundation\RequestStack'
+            - '@cache.app'
+        tags: ['doctrine.repository_service']
+            
+    App\Repository\ConfigurationRepository:
+        public: true
+        arguments:
+            - '@doctrine'
+            - '@config.params.cache'
+        tags: ['doctrine.repository_service']
+            
+    App\Repository\GiftwrapOptionsRepository:
+        public: true
+        arguments:
+            - '@doctrine'
+            - '@cache.app'
+        tags: ['doctrine.repository_service']
+            
+    App\Repository\TaxRatesRepository:
+        public: true
+        arguments:
+            - '@doctrine'
+            - '@Symfony\Component\HttpFoundation\RequestStack'
+        tags: ['doctrine.repository_service']
+            
+    App\Repository\ProductsAttributesRepository:
+        public: true
+        arguments:
+            - '@doctrine'
+            - '@cache.app'
+        tags: ['doctrine.repository_service']
+            
+    GeoIp2\Database\Reader:
+        public: true
+        arguments:
+            $filename: 'MaxMind/GeoLite2-Country_20211123/GeoLite2-Country.mmdb'
+            $locales: ['en']
+            
+    App\Service\CountryDetector:
+        public: true
+        arguments:
+            - '@Symfony\Component\HttpFoundation\RequestStack'
+            - '@GeoIp2\Database\Reader'
+            
+    App\Service\CurrencySelector:
+        public: true
+        arguments:
+            - '@Symfony\Component\HttpFoundation\RequestStack'
+            - '@doctrine' 
+            - '@App\Service\CountryDetector' 
+            
+    App\Service\ShippingBanner:
+        public: true
+        arguments:
+            - '@App\Repository\ConfigurationRepository'
+            - '@App\Service\CountryDetector'    
+            
+    App\Service\CustomersBasketCollection:
+        public: true
+        arguments:
+            - '@Symfony\Component\HttpFoundation\RequestStack'  
+            
+    App\Service\CategoriesUrl:
+        public: true
+        arguments:
+            - '@App\Repository\CategoriesRepository'             
+            - '@Symfony\Contracts\Cache\CacheInterface'  
+            
+    App\Service\CategoriesLevels:
+        public: true
+        arguments:
+            - '@App\Repository\CategoriesRepository'             

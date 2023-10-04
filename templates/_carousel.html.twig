@@ -1,0 +1,55 @@
+<div class="our-pro-active owl-carousel">
+    {% for product in products %}
+
+        <div class="single-pander-product" id="pl_{{ product.productsId }}">
+            <div class="pro-img">
+                <a href="{{ url('products', {'products_url': productsUrl.generate(product.productsId), 'products_id': product.productsId}) }}">
+                    <img src="{{ asset('240x240/' ~ product.productsImage, 'images') }}"  alt="{{ product.productsName|e }}" border="0" width="240" height="240">
+                </a>
+
+                <div class="quick-view-pro">
+                    <a data-toggle="modal" data-target="#product_details_popup_container" class="quick-view" data-pid="{{ product.productsId }}" href="#"></a>
+                </div>
+
+                <div class="wishlist-dialog" style="display: none;"></div>
+            </div>
+
+            <div class="pro-content">
+                <div class="rating">
+                    {% if(product.reviewsRatingCount is not empty)  %}
+                        {% for i in range(1, 5) %}
+                            <i class="fa fa-star{% if(product.reviewsRatingCount < i) %}-o{% endif %}" aria-hidden="true"></i>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <h4 class="pro-title">
+                    <a href="{{ url('products', {'products_url': productsUrl.generate(product.productsId), 'products_id': product.productsId}) }}">
+                        {{ product.productsName|e }}
+                    </a>
+                </h4>
+
+                <p>
+                    <span class="price">
+                        {% if(product.specialsNewProductsPrice is empty) %}
+                            {{ currency.display_price(product.finalPrice) }}
+                        {% else %}
+                            <s>{{ currency.display_price(product.productsPrice) }}</s>&nbsp;
+                            <span class="productSpecialPrice">{{ currency.display_price(product.specialsNewProductsPrice) }}</span
+                        {% endif %}
+                    </span>
+                </p>
+
+                <div class="pro-actions">
+                    <div class="actions-primary">
+                        <a href="{{ url('products', {'products_url': productsUrl.generate(product.productsId), 'products_id': product.productsId}) }}&action=buy_now" class="add-to-cart buy-now" data-toggle="tooltip" data-original-title="Add to Cart" data-pid="{{ product.productsId }}">Add To Cart</a>
+                    </div>
+
+                    <div class="actions-secondary">
+                        <a class="wishlist-actions icon-heart {% if(wishlistsCollection.inWishlists(product.productsId)) %}icon-heart-active icon-heart-favorites{% endif %}" href="{{ absolute_url('wishlist_actions.php?products_id=') }}{{ product.productsId }}&action=add_wishlist_product" data-toggle="tooltip" data-original-title="Add to Wishlist" data-pid="{{ product.productsId }}"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

@@ -1,0 +1,420 @@
+{% set countryCode = countryDetector.getCountryCode() %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div id="footer_links">
+                <div class="row footer-top ptb-10 text-center">
+                    <div class="col-12 col-md-6 col-lg-4 join_text">
+                        <span class="join_text">Get Exclusive Offers & News</span>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-4 text-center" id="joinWrap">
+                        <form name="join" id="join" method="post" action="{{ absolute_url('subscribe_mc.php') }}">
+                            <input type="hidden" value="{{ formToken.generateFormToken('join') }}" name="token">
+                            <input type="hidden" value="0" name="gmt_off_join" id="gmt_off_join" />
+                            <fieldset>
+                                <input type="text" id="join_email" name="email" placeholder="Email address"
+                                    autocomplete="off" class="blur">
+                                <button type="submit" id="join_button"><span>Join</span></button>
+                            </fieldset>
+                        </form>
+                    </div>
+
+                    <div class="col-12 col-md-12 col-lg-4 text-center">
+                        <nav id="socialLinksWrap">
+                            <ul class="social_links">
+                                <li><a class="icon-facebook" rel="nofollow"
+                                        HREF="https://www.facebook.com/GlassOfVenice" target="_blank"
+                                        title="GlassOfVenice Facebook Page"></a></li>
+                                <li><a class="icon-pinterest2" rel="nofollow" HREF="http://pinterest.com/GlassOfVenice"
+                                        target="_blank" title="GlassOfVenice on Pinterest"></a></li>
+                                <li><a class="icon-twitter" rel="nofollow" HREF="http://twitter.com/GlassOfVenice"
+                                        target="_blank" title="GlassOfVenice on Twitter"></a></li>
+                                <li><a class="icon-instagram" rel="nofollow" HREF="http://instagram.com/GlassOfVenice"
+                                        target="_blank" title="GlassOfVenice on Instagram"></a></li>
+                                <li class="last"><a class="icon-youtube" rel="nofollow"
+                                        HREF="https://www.youtube.com/c/glassofvenice" target="_blank"
+                                        title="GlassOfVenice on Google+"></a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                <div class="row footer-info ptb-20 text-left">
+                    <div class="col-12 col-md-3 ptb-10">
+                        <ul>
+                            <li class="text_block">GlassOfVenice is the top U.S. retailer of authentic hand-made Murano
+                                Glass. We import products directly from the factories in Murano, Italy and ship from our
+                                warehouse in the U.S.A. Every Venetian Glass product we sell is made in Italy and comes
+                                with Certificate Of Authenticity.</li>
+                        </ul>
+                    </div>
+
+                    <div class="col-12 col-md-3 ptb-10">
+                        <ul>
+                            <li class="group">Why Shop With Us</li>
+                            <li><a href="{{ absolute_url('7-reasons-buy-murano-glass.php') }}">WHY BUY FROM
+                                    GLASSOFVENICE</a></li>
+                            <li><a href="{{ absolute_url('about_us.php') }}">MURANO GLASS EXPERTS</a></li>
+                            <li><a href="{{ absolute_url('authentic_murano_glass.php') }}">Authenticity</a></li>
+                            <li><a href="{{ absolute_url('shipping.php') }}">Free Shipping</a></li>
+                            <li><a href="{{ absolute_url('product_packaging.php') }}">Free Jewelry Packaging</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-12 col-md-3 ptb-10">
+                        <ul>
+                            <li class="group">Customer Service</li>
+                            <li><a href="{{ absolute_url('contact_us.php') }}">Contact</a></li>
+                            <li><a href="{{ absolute_url('services.php') }}">Help & FAQ</a></li>
+                            <li><a href="{{ absolute_url('returns.php') }}">Return Policy</a></li>
+                            <li><a href="{{ absolute_url('shipping.php') }}">Shipping Information</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-12 col-md-3 ptb-10">
+                        <ul>
+                            <li class="group">Quick Links</li>
+                            <li><a href="{{ absolute_url('products_new.php') }}" target="new">New Arrivals</a></li>
+                            <li><a href="{{ absolute_url('ring_sizer.pdf') }}" target="new">Ring Sizer</a></li>
+                            <li><a href="{{ absolute_url('murano_glass_video.php') }}">Murano Glass Videos</a></li>
+                            <li><a href="{{ absolute_url('murano_glass_jewelry_care_tips.php') }}">Murano Glass Care</a>
+                            </li>
+                            <li><a href="{{ absolute_url('murano_glass_repair.php') }}">Murano Glass Repair</a></li>
+                            <li><a href="{{ absolute_url('wholesale.php') }}">Wholesale</a></li>
+                            <li><a href="{{ absolute_url('glassofvenice-gift-cards.html') }}">Gift Cards</a></li>
+                            <li><a href="{{ absolute_url('vintage-murano-glass.html') }}">Vintage Murano Glass</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row info_links text-center">
+                    <div class="col-12 col-md-4 ptb-10">
+                        <span class="info_copyright">&copy; {{ 'now'|date('Y') }} GlassOfVenice &reg;</span>
+                    </div>
+
+                    <div class="col-12 col-md-4 ptb-10">
+                        <a href="{{ absolute_url('conditions.php') }}">Terms Of Use</a>&nbsp;
+
+                        <a href="{{ absolute_url('privacy.php') }}">Privacy</a>&nbsp;
+
+                        <a href="{{ absolute_url('security.php') }}">Security</a>
+                    </div>
+
+                    <div class="col-md-4 mtb-10">
+                        <img src="{{ asset('icons/payment-icons.png', 'images') }}" alt="Payment Methods"
+                            class="img-fluid" border=0>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center mt-10 pb-40 info_links">
+                    <div class="col text-center">
+                        <span class="info_copyright">139 Harristown Rd., Glen Rock NJ 07452 USA, toll-free: (888)
+                            983-6423, local: (201) 345-3112</span>
+                    </div>
+                </div>
+
+                <!-- Start Join Form modal -->
+                {% if(app.request.cookies.get('subscribe_mc_counter')) %}
+                <div class="modal fade" id="joinModal" tabindex="-1" role="dialog"
+                    aria-labelledby="joinModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content {% if(countryCode == 'US') %}joinModal_US{% else %}joinModal_nonUS{% endif %}"
+                            id="subscribe-mc-dialog-form">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="joinModalLongTitle"></h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" id="subscribe_mc_content">
+                                <form action="{{ absolute_url('subscribe_mc.php') }}" method="post"
+                                    id="subscribe_mc_form" class="pure-form">
+                                    <input type="hidden" value="{{ formToken.generateFormToken('subscribe_mc_form') }}"
+                                        name="token">
+                                    <input type="hidden" value="site_sticky" name="source" />
+                                    <input type="hidden" value="0" name="gmt_off_popup" id="gmt_off_popup" />
+
+                                    <div class="container" id="subscribe_mc_content_form">
+                                        <div class="row justify-content-center">
+                                            <div class="col-7 text-right">
+                                                <input id="subscribe-mc-modal-email"
+                                                    class="input-text required-entry validate-email ui-autocomplete-input form-control"
+                                                    type="text" value="Enter email address..." name="email" />
+                                            </div>
+
+                                            <div class="col-5 text-left">
+                                                <button class="btn-primary" id="subscribe-mc-submit" title="Submit"
+                                                    type="submit">
+                                                    <span>SUBMIT</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="row justify-content-center" id="subscribe_mc_content_error">
+                                            <div class="col-12 text-center">
+                                                <img src="{{ asset('icons/facebook-loader.gif', 'images') }}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <!-- End Join Form modal -->
+
+                <!-- Start Quick Product View modal -->
+                <div class="main-product-thumbnail quick-thumb-content">
+                    <div class="container">
+                        <div class="modal fade" id="product_details_popup_container" tabindex="-1" role="dialog"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                <div class="modal-content" id="product_details_popup">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="productDetailsModalTitle"></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <img src="{{ asset('icons/loader.gif', 'images') }}" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Quick Product View modal -->
+
+                <!-- Start Product Add Cart View modal -->
+                <div class="main-product-thumbnail quick-thumb-content">
+                    <div class="container">
+                        <div class="modal fade" id="product_addcart_popup_container" tabindex="-1" role="dialog"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                <div class="modal-content" id="product_addcart_popup">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="productAddcartModalTitle"></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <img src="{{ asset('icons/loader.gif', 'images') }}" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Product Add Cart View modal -->
+
+                {{ include('_scripts.html.twig') }}
+
+                <!-- BEGIN PHP Live! HTML Code [V3] -->
+                <span
+                    style="color: #0000FF; text-decoration: underline; line-height: 0px !important; cursor: pointer; position: fixed; bottom: 0px; right: 20px; z-index: 20000000;"
+                    id="phplive_btn_1578764530"></span>
+                <script data-cfasync="false" type="text/javascript">
+
+                    (function () {
+                        var phplive_href = encodeURIComponent(location.href);
+                        var phplive_e_1578764530 = document.createElement("script");
+                        phplive_e_1578764530.type = "text/javascript";
+                        phplive_e_1578764530.async = true;
+                        phplive_e_1578764530.src = "https://www.glassofvenice.com/phplive/js/phplive_v2.js.php?v=0%7C1578764530%7C2%7C&r=" + phplive_href;
+                        document.getElementById("phplive_btn_1578764530").appendChild(phplive_e_1578764530);
+                        if ([].filter) {
+                            document.getElementById("phplive_btn_1578764530").addEventListener("click", function () {
+                                phplive_launch_chat_0()
+                            });
+                        } else {
+                            document.getElementById("phplive_btn_1578764530").attachEvent("onclick", function () {
+                                phplive_launch_chat_0()
+                            });
+                        }
+                    })();
+
+                </script>
+                <!-- END PHP Live! HTML Code [V3] -->
+
+                <!-- Start Google Code for Remarketing Tag -->
+                {% set remarketingParams = remarketingJs.generate() %}
+                {% if(remarketingParams['ecomm_prodid'] is not empty) %}
+                <script type="text/javascript">
+                    /* <![CDATA[ */
+                    var google_tag_params = {
+                        ecomm_prodid
+                            : {{ remarketingParams['ecomm_prodid'] }},
+                    ecomm_pagetype: '{{ remarketingParams['ecomm_pagetype'] }}',
+                        {% if (remarketingParams['ecomm_category'] is not empty) %}
+                    ecomm_category: '{{ remarketingParams['ecomm_category'] }}',
+                        {% endif %}
+                    {% if (remarketingParams['ecomm_totalvalue'] is not empty) %}
+                    ecomm_totalvalue: { { remarketingParams['ecomm_totalvalue'] } }
+                    {% endif %}
+                            }
+                    ;
+                            /* ]]> */
+                </script>
+                {% endif %}
+
+                <script type="text/javascript">
+                    /* <![CDATA[ */
+                    google_conversion_id = 1046061818;
+                    google_custom_params = window.google_tag_params;
+                    google_remarketing_only = true;
+                    /* ]]> */
+                </script>
+                <!-- End Google Code for Remarketing Tag -->
+
+                <!-- Start Google Adservices -->
+                {{ remarketingJs.cache_read() }}
+                <noscript>
+                    <div style="display:inline;">
+                        <img height="1" width="1" style="border-style:none;" alt="Google Ads"
+                            src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1046061818/?value=0&amp;guid=ON&amp;script=0" />
+                    </div>
+                </noscript>
+                <!-- End Google Adservices -->
+
+                <!-- Start Bing -->
+                <script>
+                    (function (w, d, t, r, u) {
+                        var f, n, i;
+                        w[u] = w[u] || [], f = function () {
+                            var o = { ti: "5214360" };
+                            o.q = w[u], w[u] = new UET(o), w[u].push("pageLoad")
+                        }, n = d.createElement(t), n.src = r, n.async = 1, n.onload = n.onreadystatechange = function () {
+                            var s = this.readyState;
+                            s && s !== "loaded" && s !== "complete" || (f(), n.onload = n.onreadystatechange = null)
+                        }, i = d.getElementsByTagName(t)[0], i.parentNode.insertBefore(n, i)
+                    })(window, document, "script", "//bat.bing.com/bat.js", "uetq");
+                </script>
+
+                {% set bingParams = bingJs.generate() %}
+
+                {% if(bingParams['revenue'] is not empty) %}
+                <script>
+                    window.uetq = window.uetq || [];
+                    window.uetq.push('event', '', { revenue_value: bingParams['revenue'], 'currency': 'USD' });
+                </script>
+                {% endif %}
+                <!-- End Bing -->
+
+                <!-- BEGIN GCR Badge Code -->
+                {% if(countryCode == 'US') %}
+                {% if(configurationRepository.getConfigParam('GOOGLE_TRUSTED_STORES_ACTIVE') == 'true') %}
+                {{ trustedStoresJs.cache_read() }}
+
+                <script>
+                    window.renderBadge = function () {
+                        var ratingBadgeContainer = document.createElement("div");
+                        document.body.appendChild(ratingBadgeContainer);
+                        window.gapi.load('ratingbadge', function () {
+                            window.gapi.ratingbadge.render(
+                                ratingBadgeContainer, {
+                                // REQUIRED
+                                "merchant_id": {{ configurationRepository.getConfigParam('ITEM_GOOGLE_SHOPPING_ACCOUNT_ID') }},
+                            // OPTIONAL
+                            "position": "BOTTOM_RIGHT"
+                                        });
+                                }
+                                );
+                            }
+                </script>
+                <!-- END GCR Badge Code -->
+
+                <!-- BEGIN GCR Language Code -->
+                <script>
+                    window.___gcfg = {
+                        lang: 'en_US'
+                    };
+                </script>
+                {% endif %}
+
+                {% if(configurationRepository.getConfigParam('GOOGLE_TRUSTED_STORES_POPUP_ACTIVE') == 'true') %}
+
+                {% endif %}
+                {% endif %}
+                <!-- END GCR Language Code -->
+
+                <!-- BEGIN: _GUARANTEE Seal -->
+                {% if(configurationRepository.getConfigParam('NSG') == 'true') %}
+                <span id="_GUARANTEE_SealSpan"></span>
+                <img style="display:none;"
+                    src="//nsg.symantec.com/Web/Seal/AltSealInfo.aspx?S=Large&T=M&Elem=ImgTagSeal&HASH=3%2BoXHWZ9N5eOD4ci1caqJ9iz7hQAmJQhGjAKlbNLyCgroZcSTeTq35bNS9%2BtAOnVux9e8p%2Bb7EmMqOg4rg%2Fs7w%3D%3D&CBF=AB&AB=1&DP=fn=;src=ImgTagSeal;grt=true" />
+                {{ nsgJs.cache_read() }}
+
+                <script type="text/javascript">
+                    if (window._GUARANTEE && _GUARANTEE.Loaded) {
+                        _GUARANTEE.Hash = "3%2BoXHWZ9N5eOD4ci1caqJ9iz7hQAmJQhGjAKlbNLyCgroZcSTeTq35bNS9%2BtAOnVux9e8p%2Bb7EmMqOg4rg%2Fs7w%3D%3D";
+                        _GUARANTEE.WriteSeal("_GUARANTEE_SealSpan", "GuaranteedSeal");
+                    }
+                </script>
+                {% set nsgParams = nsgJs.generate() %}
+                {% if(nsgParams['order'] is not empty) %}
+                <script type="text/javascript" src="//guarantee-cdn.com/Web/Seal/gjs.aspx?SN=960460146"></script>
+
+                <script type="text/javascript">
+                    if (window._GUARANTEE && _GUARANTEE.Loaded) {
+                        _GUARANTEE.Hash = "3%2BoXHWZ9N5eOD4ci1caqJ9iz7hQAmJQhGjAKlbNLyCgroZcSTeTq35bNS9%2BtAOnVux9e8p%2Bb7EmMqOg4rg%2Fs7w%3D%3D";
+                        _GUARANTEE.Guarantee.order = "{{ nsgParams['order'] }}";
+                        _GUARANTEE.Guarantee.subtotal = "{{ nsgParams['subtotal'] }}";
+                        _GUARANTEE.Guarantee.currency = "{{ nsgParams['currency'] }}";
+                        _GUARANTEE.Guarantee.email = "{{ nsgParams['email'] }}";
+                        _GUARANTEE.WriteGuarantee("JavaScript", "_GUARANTEE_GuaranteeSpan");
+                    }
+                </script>
+
+                <script type="text/javascript">
+                    window.onload = function () {
+                        bs_R.oBSG.Toggle();
+                    }
+                </script>
+                {% endif %}
+                {% endif %}
+                <!-- END: NSG_GUARANTEE -->
+
+                <!-- BEGIN: Outbrain -->
+                {% if(configurationRepository.getConfigParam('OUTBRAIN_ACTIVE') == 'true') %}
+                {% set outbrainParams = outbrainJs.generate() %}
+                {% if(outbrainParams['orderId'] is not empty) %}
+                <script type="text/javascript">
+                    obApi('track', 'Purchase', {
+                        orderValue: '{{ outbrainParams['orderValue'] }}',
+                        currency: '{{ outbrainParams['currency'] }}',
+                        orderId: '{{ outbrainParams['orderId'] }}'
+                            });
+                </script>
+                {% endif %}
+                {% endif %}
+                <!-- END: Outbrain -->
+
+                <!-- BEGIN: Klaviyo -->
+                {{ klaviyoJs.cache_read() }}
+                <script type="text/javascript">
+                    var _learnq = _learnq || [];
+
+                    {% set klaviyoParams = klaviyoJs.generate() %}
+                    {% if (klaviyoParams['identifyParams']['email'] is not empty) %}
+                    _learnq.push(['identify', {
+                        '$email': '{{ klaviyoParams['identifyParams']['email'] }}',
+                        '$first_name': '{{ klaviyoParams['identifyParams']['first_name'] }}',
+                        '$last_name': '{{ klaviyoParams['identifyParams']['last_name'] }}'
+                        }]);
+                    {% endif %}
+                </script>
+                <!-- END: Klaviyo -->
+
+                <script type="text/javascript">
+                    document.getElementById('signout_header_button').onclick = function () {
+                        amazon.Login.logout();
+                    };
+                </script>
+            </div>
+        </div>
+    </div>
+</div>

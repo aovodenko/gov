@@ -1,0 +1,58 @@
+{% extends 'layout.html.twig' %}
+
+{% block _canonical %}
+    <link rel="canonical" href="{{ absolute_url('/') }}">
+{% endblock %}
+
+{% block _stylesheets_page %}
+    <link rel="stylesheet" href="{{ asset('css/product_info.css', 'glassofvenice') }}">
+{% endblock %}
+
+{% block _trackers_page_post %}
+    <script type="text/javascript">
+        fbq('track', 'ViewContent');
+    </script>
+{% endblock %}
+
+{% block _content %}
+    <br />  
+    <h1>{{ products_id }}</h1>
+{% endblock %}
+
+{% block _scripts_page %}
+    <script src="{{ asset('js/add_product.js', 'glassofvenice') }}"></script>
+    <script src="{{ asset('js/product_info.js', 'glassofvenice') }}"></script>
+    <!-- Affirm -->
+    <script>
+  _affirm_config = {
+      public_api_key: "<?php echo (MODULE_PAYMENT_AFFIRM_MODE == 'Production' ? MODULE_PAYMENT_AFFIRM_PRODUCTION_PUBLIC_API_KEY : MODULE_PAYMENT_AFFIRM_SANDBOX_PUBLIC_API_KEY); ?>",
+      script: "<?php echo (MODULE_PAYMENT_AFFIRM_MODE == 'Production' ? 'https://cdn1.affirm.com/js/v2/affirm.js' : 'https://cdn1-sandbox.affirm.com/js/v2/affirm.js'); ?>"
+  };
+  (function (l, g, m, e, a, f, b) {
+      var d, c = l[m] || {}, h = document.createElement(f), n = document.getElementsByTagName(f)[0], k = function (a, b, c) {
+          return function () {
+              a[b]._.push([c, arguments])
+          }
+      };
+      c[e] = k(c, e, "set");
+      d = c[e];
+      c[a] = {};
+      c[a]._ = [];
+      d._ = [];
+      c[a][b] = k(c, a, b);
+      a = 0;
+      for (b = "set add save post open empty reset on off trigger ready setProduct".split(" "); a < b.length; a++)
+          d[b[a]] = k(c, e, b[a]);
+      a = 0;
+      for (b = ["get", "token", "url", "items"]; a < b.length; a++)
+          d[b[a]] = function () {};
+      h.async = !0;
+      h.src = g[f];
+      n.parentNode.insertBefore(h, n);
+      delete g[f];
+      d(g);
+      l[m] = c
+  })(window, _affirm_config, "affirm", "checkout", "ui", "script", "ready");
+    </script>
+    <!-- End Affirm -->  
+{% endblock %}

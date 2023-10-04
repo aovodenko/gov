@@ -1,0 +1,32 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    globals:
+        base_urls: '%env(BASE_URLS)%%env(DIR_WS_CATALOG)%'
+        headertags: '@App\Service\Headertags'
+        storeSchema: '@App\Service\StoreSchema'
+        manifestAssetsJsonData: '@App\Service\ManifestAssetsJsonData'
+        currencySelector: '@App\Service\CurrencySelector'
+        shippingBanner: '@App\Service\ShippingBanner'
+        customersBasketCollection: '@App\Service\CustomersBasketCollection'
+        wishlistsCollection: '@App\Service\WishlistsCollection'
+        currenciesRepository: '@App\Repository\CurrenciesRepository'
+        configurationRepository: '@App\Repository\ConfigurationRepository'
+        categoriesUrl: '@App\Service\CategoriesUrl'
+        categoriesLevels: '@App\Service\CategoriesLevels'
+        productsUrl: '@App\Service\ProductsUrl'
+        countryDetector: '@App\Service\CountryDetector'
+        formToken: '@App\Service\FormToken'
+        remarketingJs: '@App\Service\Analytics\Remarketing'
+        bingJs: '@App\Service\Analytics\Bing'
+        trustedStoresJs: '@App\Service\Analytics\TrustedStores'
+        nsgJs: '@App\Service\Analytics\NSG'
+        outbrainJs: '@App\Service\Analytics\Outbrain'
+        klaviyoJs: '@App\Service\Analytics\Klaviyo'
+        slidersRepository: '@App\Repository\SlidersRepository'
+        slidersImagesRepository: '@App\Repository\SlidersImagesRepository'
+        slidersImagesLinksRepository: '@App\Repository\SlidersImagesLinksRepository'
+        productsRepository: '@App\Repository\ProductsRepository'
+
+when@test:
+    twig:
+        strict_variables: true

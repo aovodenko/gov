@@ -1,0 +1,38 @@
+{% set headertags = headertags.generate() %}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% if headertags.title %}
+<title>{{ headertags.title }}</title>
+{% endif %}
+{% if headertags.desc %}
+<meta name="Description" content="{{ headertags.desc }}">
+{% endif %}
+{% if headertags.keywords %}
+<meta name="Keywords" content="{{ headertags.keywords }}">
+{% endif %}
+{% if headertags.meta_language %}
+<meta http-equiv="Content-Language" content="{{ headertags.meta_language }}">
+{% endif %}
+{% if headertags.meta_google %}
+<meta name="googlebot" content="all">
+{% endif %}
+{% if headertags.meta_noodp %}
+<meta name="robots" content="noodp">
+{% endif %}
+{% if headertags.meta_noydir %}
+<meta name="slurp" content="noydir">
+{% endif %}
+{% if headertags.meta_revisit %}
+<meta name="revisit-after" content="1 days">
+{% endif %}
+{% if headertags.meta_robots %}
+<meta name="robots" content="index, follow">
+{% endif %}
+{% if headertags.meta_unspam %}
+<meta name="no-email-collection" value="{{ base_urls }}">
+{% endif %}
+{% if headertags.meta_replyto %}
+<meta name="Reply-to" content="{{ headertags.meta_replyto }}">
+{% endif %}
+<base href="{{ base_urls }}">
+<link rel="shortcut icon" href="favicon.png" type="image/png">

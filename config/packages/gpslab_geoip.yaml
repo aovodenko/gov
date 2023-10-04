@@ -1,0 +1,9 @@
+# Read the README file for more detailed configuration information
+# https://github.com/gpslab/geoip2
+gpslab_geoip:
+    # You should specify your personal licence key
+    license: 'cy2CQgriFo9MlDMr'
+
+    # Edition ID of database you need
+    edition: 'GeoLite2-Country'
+    path: '../MaxMind/GeoLite2-Country_20230421/GeoLite2-Country.mmdb'

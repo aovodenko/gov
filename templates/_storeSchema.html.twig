@@ -1,0 +1,40 @@
+{% cache 'storeSchema_' ~ 'now'|date('Y-m-d') %}
+{% set storeSchema = storeSchema.generate %}
+<script type='application/ld+json'>
+{
+	"@context": "http://schema.org/",
+	"@type": "Store",
+    "name" : "GlassOfVenice",
+    "image" : "https://assets.glassofvenice.com/images/murano_glass.jpg",
+	"openingHours": "Mo-Su: 09.00 - 17.00",
+	"paymentAccepted": [
+		"Paypal",
+		"Credit Card"
+	],
+	"brand": "Glass Of Venice",
+	"priceRange": "15$/5000$",
+	"address": {
+		"@type": "PostalAddress",
+		"addressCountry": "USA",
+		"addressLocality": "Glen Rock",
+		"addressRegion": "New Jersey",
+		"postalCode": "07452",
+		"streetAddress": "139 Harristown Rd. Ste B1",
+		"email": "support@glassofvenice.com",
+		"telephone": "(888) 983-6423",
+		"description": "Authentic Murano Glass made in Venice, in stock in the USA."
+	},
+	"aggregateRating": {
+		"@type": "AggregateRating",
+		"ratingCount": "{{ storeSchema.approved_count }}",
+		"reviewCount": "{{ storeSchema.approved_count }}",
+		"bestRating": "5",
+		"ratingValue": "{{ storeSchema.reviews_rating_avg }}",
+		"worstRating": "1"
+	},
+	"telephone": "(888) 983-6423",
+	"map": "https://www.google.com/maps/place/GlassOfVenice/@40.9489238,-74.1479713,17z/data=!3m1!4b1!4m5!3m4!1s0x89c2fca591a75c59:0xa22e568726325c2f!8m2!3d40.9489238!4d-74.1457826",
+	"photo": "https://assets.glassofvenice.com/images/images_venice/GlassOfVenice_Murano_Glass_Making.jpg"
+}
+</script>
+{% endcache %}

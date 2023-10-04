@@ -1,0 +1,5 @@
+{% set manifestAssetsJsonData = manifestAssetsJsonData.generate() %}
+
+<input type="hidden" name="route" id="route" value="index_top" />
+<script src="{{ manifestAssetsJsonData['runtime.js'] }}" type="text/javascript"></script>
+<script src="{{ manifestAssetsJsonData['index.js'] }}" type="text/javascript"></script>

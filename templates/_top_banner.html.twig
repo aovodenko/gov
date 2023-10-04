@@ -1,0 +1,28 @@
+{% set top_banner_date_begin = '11/30/2021'|format_datetime(pattern='MM/dd/Y') %}
+{% set top_banner_date_end = '01/01/2022'|format_datetime(pattern='MM/dd/Y') %}
+
+{% set current_date = date()|format_datetime(pattern='Y-MM-dd') %}
+{% set top_banner_date_begin = top_banner_date_begin|format_datetime(pattern='Y-MM-dd') %}
+{% set top_banner_date_end = top_banner_date_end|format_datetime(pattern='Y-MM-dd') %}
+
+{% if current_date >= top_banner_date_begin and current_date <= top_banner_date_end %}
+  <div class="text-center">
+	  <a href="#">
+  	  <div style="background-image: linear-gradient(to bottom, #730109, #8c010e, #a50111, #bf0114, #da0217); background-repeat:repeat-x; width:100%;">
+	  	  <p style="color:#fff; font-family:verdana; font-size:min(22px, 2vw); line-height:40px; margin: 0;">
+		  	  15% Off + Free Shipping in the U.S.
+
+		  	  <span style="color:#fff; font-family:verdana; font-size:min(19px, 2vw); line-height:40px;">
+			  	  code
+			  	  <span style="display:inline-block; color:#ffb45e; font-family:verdana; font-size:min(22px, 3vw); /*line-height:22px; border: 2px solid #fff; padding:5px */">
+					    LDAY15
+			  	  </span>
+			  	  <span style="color:#fff; font-size:min(14px, 1.5vw); margin-left:1vw; font-weight:bold;">
+				     (*regular-price items only)
+			  	  </span>
+		  	  </span>
+	  	  </p>
+  	  </div>
+	  </a>
+  </div>
+{% endif %}
